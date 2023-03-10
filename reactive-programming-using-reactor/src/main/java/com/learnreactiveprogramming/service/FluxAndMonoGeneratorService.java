@@ -40,7 +40,16 @@ public class FluxAndMonoGeneratorService {
         return Flux.fromIterable(List.of("Aria", "ben","Nola"))
                 .map(String::toUpperCase)
                 .filter(s -> s.length() > stringLength)
-                .flatMap(s-> splitStringAsync(s))
+                .flatMap(s-> splitStringWithFixedDelay(s))
+                .log();
+    }
+
+    //Asynchronous call with maintaining ordering , but take more processing time than flat map async call
+    public Flux<String> namesFluxConcatMap(int stringLength){
+        return Flux.fromIterable(List.of("Aria", "ben","Nola"))
+                .map(String::toUpperCase)
+                .filter(s -> s.length() > stringLength)
+                .concatMap(s-> splitStringWithFixedDelay(s))
                 .log();
     }
 
@@ -48,9 +57,14 @@ public class FluxAndMonoGeneratorService {
         return Flux.fromArray(str.split(""));
     }
 
-    public Flux<String>  splitStringAsync(String str){
+    public Flux<String> splitStringWithDelay(String str){
         return Flux.fromArray(str.split(""))
                 .delayElements(Duration.ofMillis(new Random().nextInt(1000)));
+    }
+
+    public Flux<String> splitStringWithFixedDelay(String str){
+        return Flux.fromArray(str.split(""))
+                .delayElements(Duration.ofMillis(1000));
     }
     public Flux<String> namesFluxMapImmutable(){
         var namesFlux =  Flux.fromIterable(List.of("Aria", "rock","Nola"));
