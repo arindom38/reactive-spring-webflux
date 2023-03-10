@@ -59,4 +59,15 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
 
     }
+
+    @Test
+    void namesFluxFlatMapAsync() {
+        var namesFluxMap = serviceTest.namesFluxFlatMapAsync(3);
+
+        StepVerifier.create(namesFluxMap)
+                //.expectNext("A","R","I","A","N","O","L","A") //makes test fails as data is coming asynchronously , no ordering is maintained
+                .expectNextCount(8)
+                .verifyComplete();
+
+    }
 }
