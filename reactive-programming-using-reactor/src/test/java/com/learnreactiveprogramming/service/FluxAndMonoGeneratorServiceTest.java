@@ -49,4 +49,14 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("4-ARIA","4-NOLA")
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxFlatMap() {
+        var namesFluxMap = serviceTest.namesFluxFlatMap(3);
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("A","R","I","A","N","O","L","A")
+                .verifyComplete();
+
+    }
 }
