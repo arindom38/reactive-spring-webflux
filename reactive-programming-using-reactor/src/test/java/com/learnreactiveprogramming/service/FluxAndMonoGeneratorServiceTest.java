@@ -17,7 +17,16 @@ class FluxAndMonoGeneratorServiceTest {
 //                .expectNext("Aria", "rock","Nola")
 //                .expectNextCount(3)
                 .expectNextCount(2)
-                .expectNext("Rock")
+                .expectNext("Nola")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFluxMap() {
+        var namesFluxMap = serviceTest.namesFluxMap();
+
+        StepVerifier.create(namesFluxMap)
+                .expectNext("ARIA" , "ROCK","NOLA")
                 .verifyComplete();
     }
 }
