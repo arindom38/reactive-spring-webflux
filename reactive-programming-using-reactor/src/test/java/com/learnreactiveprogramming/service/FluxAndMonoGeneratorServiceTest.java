@@ -46,7 +46,7 @@ class FluxAndMonoGeneratorServiceTest {
         var namesFluxMap = serviceTest.namesFluxMap(3);
 
         StepVerifier.create(namesFluxMap)
-                .expectNext("ARIA","NOLA")
+                .expectNext("4-ARIA","4-NOLA")
                 .verifyComplete();
     }
 }
