@@ -193,4 +193,40 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A","B","C","D","E","F")
                 .verifyComplete();
     }
+
+    @Test
+    void exploreZip() {
+        var nameFlux = serviceTest.exploreZip();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("A-D","B-E","C-F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreZip4() {
+        var nameFlux = serviceTest.exploreZip4();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("AD14","BE25","CF36")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreZipWith() {
+        var nameFlux = serviceTest.exploreZipWith();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("A-D","B-E","C-F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreZipWithMono() {
+        var nameFlux = serviceTest.exploreZipWithMono();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("John Cena")
+                .verifyComplete();
+    }
 }

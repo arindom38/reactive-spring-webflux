@@ -2,6 +2,7 @@ package com.learnreactiveprogramming.service;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.util.function.Tuple4;
 
 import java.time.Duration;
 import java.util.List;
@@ -177,6 +178,55 @@ public class FluxAndMonoGeneratorService {
         return Flux.mergeSequential(flux1,flux2).log();
 
     }
+
+    public Flux<String> exploreZip(){
+        var flux1 = Flux.just("A","B","C");
+
+        var flux2 = Flux.just("D","E","F");
+
+        //using static concat method
+        return Flux.zip(flux1,flux2,(f,s)-> f+"-"+s).log();
+
+    }
+
+    public Flux<String> exploreZip4(){
+        var flux1 = Flux.just("A","B","C");
+
+        var flux2 = Flux.just("D","E","F");
+
+        var flux3 = Flux.just("1","2","3");
+
+        var flux4 = Flux.just("4","5","6");
+
+        //using static concat method
+        return Flux.zip(flux1,flux2,flux3,flux4)
+                .map(t4->t4.getT1()+t4.getT2()+t4.getT3()+t4.getT4()).log();
+
+    }
+
+    public Flux<String> exploreZipWith(){
+        var flux1 = Flux.just("A","B","C");
+
+        var flux2 = Flux.just("D","E","F");
+
+        //using static concat method
+        return flux1.zipWith(flux2,(f,s)-> f+"-"+s).log();
+
+    }
+
+    public Mono<String> exploreZipWithMono(){
+        var mono1 = Mono.just("John");
+
+        var mono2 = Mono.just("Cena");
+
+        //using static concat method
+      //  return mono1.zipWith(mono2,(f,s)-> f+" "+s).log();
+        return mono1.zipWith(mono2)
+                .map(t2-> t2.getT1()+" "+t2.getT2())
+                .log();
+
+    }
+
 
 
 
