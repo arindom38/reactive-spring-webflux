@@ -165,6 +165,20 @@ public class FluxAndMonoGeneratorService {
         return mono1.mergeWith(mono2).log();
 
     }
+    //Though merge executed both publisher at same time but mergeSequential both subscription is executed at same time but data comes sequentially
+    public Flux<String> exploreMergeSequential(){
+        var flux1 = Flux.just("A","B","C")
+                .delayElements(Duration.ofMillis(100));
+
+        var flux2 = Flux.just("D","E","F")
+                .delayElements(Duration.ofMillis(100));
+
+        //using static concat method
+        return Flux.mergeSequential(flux1,flux2).log();
+
+    }
+
+
 
 
 
