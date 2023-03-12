@@ -76,6 +76,19 @@ public class FluxAndMonoGeneratorService {
         return Mono.just("Dilip")
                 .log();
     }
+
+    public Mono<List<String>> nameMonoFlatMap(int stringLength){
+        return Mono.just("Dilip")
+                .map(String::toUpperCase)
+                .filter(s-> s.length() > stringLength)
+                .flatMap(this::splitStringMono)
+                .log();
+    }
+
+    public Mono<List<String>> splitStringMono(String str){
+        return Mono.just(List.of(str.split("")));
+    }
+
     public static void main(String[] args) {
         FluxAndMonoGeneratorService service = new FluxAndMonoGeneratorService();
 
