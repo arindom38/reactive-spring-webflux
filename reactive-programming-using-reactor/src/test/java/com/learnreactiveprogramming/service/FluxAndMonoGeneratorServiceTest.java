@@ -102,4 +102,12 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNextSequence(List.of("D","I","L","I","P"))
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxTransform() {
+        var nameFluxTransform = serviceTest.namesFluxTransform(3);
+        StepVerifier.create(nameFluxTransform)
+                .expectNext("A","R","I","A","N","O","L","A")
+                .verifyComplete();
+    }
 }
