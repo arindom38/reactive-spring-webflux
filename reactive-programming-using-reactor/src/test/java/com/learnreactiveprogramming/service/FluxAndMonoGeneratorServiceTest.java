@@ -155,4 +155,32 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A","D")
                 .verifyComplete();
     }
+
+    @Test
+    void exploreMerge() {
+        var nameFlux = serviceTest.exploreMerge();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("A","D","B","E","C","F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreMergeWith() {
+        var nameFlux = serviceTest.exploreMergeWith();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("A","D","B","E","C","F")
+                .verifyComplete();
+    }
+
+    @Test
+    void exploreMonoToFluxMergeWith() {
+
+        var nameFlux = serviceTest.exploreMonoToFluxMergeWith();
+
+        StepVerifier.create(nameFlux)
+                .expectNext("D","A")
+                .verifyComplete();
+    }
 }

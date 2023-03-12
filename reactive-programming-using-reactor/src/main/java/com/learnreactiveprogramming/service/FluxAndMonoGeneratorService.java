@@ -128,6 +128,45 @@ public class FluxAndMonoGeneratorService {
 
     }
 
+    //merger doesn't execute in sequence , it runs at same time
+    public Flux<String> exploreMerge(){
+        var flux1 = Flux.just("A","B","C")
+                .delayElements(Duration.ofMillis(100));
+
+        var flux2 = Flux.just("D","E","F")
+                .delayElements(Duration.ofMillis(120));
+
+        //100 > A > 120 > D > 200 > B > 220 > E ..........
+        return Flux.merge(flux1,flux2).log();
+
+    }
+
+    //concatWith is an instance method
+    public Flux<String> exploreMergeWith(){
+        var flux1 = Flux.just("A","B","C")
+                .delayElements(Duration.ofMillis(100));
+
+        var flux2 = Flux.just("D","E","F")
+                .delayElements(Duration.ofMillis(120));
+
+        //using static concat method
+        return flux1.mergeWith(flux2).log();
+
+    }
+
+    public Flux<String> exploreMonoToFluxMergeWith(){
+        var mono1 = Mono.just("A")
+                .delayElement(Duration.ofMillis(120));
+
+        var mono2 = Mono.just("D")
+                .delayElement(Duration.ofMillis(90));
+
+        //using static concat method
+        return mono1.mergeWith(mono2).log();
+
+    }
+
+
 
     public Flux<String>  splitString(String str){
         return Flux.fromArray(str.split(""));
