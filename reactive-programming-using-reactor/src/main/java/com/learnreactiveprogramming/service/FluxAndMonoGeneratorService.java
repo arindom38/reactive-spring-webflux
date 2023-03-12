@@ -50,6 +50,35 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Flux<String> namesFluxTransformDefaultIfEmpty(int stringLength){
+
+        Function<Flux<String>,Flux<String>> filterMap =
+                name -> name.map(String::toUpperCase)
+                        .filter(s -> s.length() > stringLength);
+
+        return Flux.fromIterable(List.of("Aria", "ben","Nola"))
+                .transform(filterMap)
+                .defaultIfEmpty("default")
+                .log();
+    }
+
+    //difference between switch if empty and default if empty is switch empty take a publisher as arguement
+    public Flux<String> namesFluxTransformSwitchIfEmpty(int stringLength){
+
+        Function<Flux<String>,Flux<String>> filterMap =
+                name -> name.map(String::toUpperCase)
+                        .filter(s -> s.length() > stringLength)
+                        .flatMap(this::splitString);
+
+        var defaultFlux = Flux.just("default")
+                .transform(filterMap);
+
+        return Flux.fromIterable(List.of("Aria", "ben","Nola"))
+                .transform(filterMap)
+                .switchIfEmpty(defaultFlux)
+                .log();
+    }
+
     public Flux<String> namesFluxFlatMapAsync(int stringLength){
         return Flux.fromIterable(List.of("Aria", "ben","Nola"))
                 .map(String::toUpperCase)

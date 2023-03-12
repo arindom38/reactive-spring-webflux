@@ -110,4 +110,20 @@ class FluxAndMonoGeneratorServiceTest {
                 .expectNext("A","R","I","A","N","O","L","A")
                 .verifyComplete();
     }
+
+    @Test
+    void namesFluxTransformDefaultIfEmpty() {
+        var nameFluxTransform = serviceTest.namesFluxTransformDefaultIfEmpty(6);
+        StepVerifier.create(nameFluxTransform)
+                .expectNext("default")
+                .verifyComplete();
+    }
+
+    @Test
+    void namesFluxTransformSwitchIfEmpty() {
+        var nameFluxTransform = serviceTest.namesFluxTransformSwitchIfEmpty(6);
+        StepVerifier.create(nameFluxTransform)
+                .expectNext("D","E","F","A","U","L","T")
+                .verifyComplete();
+    }
 }
