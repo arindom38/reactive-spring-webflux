@@ -102,11 +102,12 @@ public class FluxAndMonoGeneratorService {
 
         var flux2 = Flux.just("D","E","F");
 
-        //using static concat method
+        //using static concat method in flux (not available for mono)
         return Flux.concat(flux1,flux2);
 
     }
 
+    //concatWith is an instance method
     public Flux<String> namesFluxConcatWith(){
         var flux1 = Flux.just("A","B","C");
 
