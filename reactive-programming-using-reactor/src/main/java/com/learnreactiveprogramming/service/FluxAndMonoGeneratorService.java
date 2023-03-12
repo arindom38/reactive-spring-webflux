@@ -85,6 +85,16 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+
+    //flatMapMany is used when a mono is transformed into a flux
+    public Flux<String> nameMonoFlatMapMany(int stringLength){
+        return Mono.just("Dilip")
+                .map(String::toUpperCase)
+                .filter(s-> s.length() > stringLength)
+                .flatMapMany(this::splitString)
+                .log();
+    }
+
     public Mono<List<String>> splitStringMono(String str){
         return Mono.just(List.of(str.split("")));
     }
