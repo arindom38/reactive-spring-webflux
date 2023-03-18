@@ -62,4 +62,19 @@ class FluxAndMonoControllerTest {
                 });
 
     }
+
+    @Test
+    void mono(){
+        webTestClient
+                .get()
+                .uri("/mono")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(String.class)
+                .consumeWith(stringEntityExchangeResult -> {
+                    var response = stringEntityExchangeResult.getResponseBody();
+                    assertEquals(response,"Hello Mono");
+                });
+    }
 }
