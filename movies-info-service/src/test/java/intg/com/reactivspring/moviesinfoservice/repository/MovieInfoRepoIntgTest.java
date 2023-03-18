@@ -69,4 +69,21 @@ class MovieInfoRepoIntgTest {
                 })
                 .verifyComplete();
     }
+
+    @Test
+    void saveMovieInfo() {
+
+        var movieInfo = new MovieInfo(null, "John Wick Test: chapter 1", 2014,
+                List.of("Keanu Reeves", "Lance Reddick", "Ian Mcsahne", "Michael Nyqvist"),
+                LocalDate.parse("24-10-2014", DateTimeFormatter.ofPattern("dd-MM-yyyy")));
+
+        var moviesInfoMono = movieInfoRepo.save(movieInfo).log();//returns a mono
+
+        StepVerifier.create(moviesInfoMono)
+                .assertNext(movie->{
+                    assert movie.getMovieInfoId() != null;
+                    assert movie.getName().equals("John Wick Test: chapter 1");
+                })
+                .verifyComplete();
+    }
 }
