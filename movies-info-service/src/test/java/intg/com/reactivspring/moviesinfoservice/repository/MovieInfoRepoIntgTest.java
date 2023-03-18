@@ -34,7 +34,7 @@ class MovieInfoRepoIntgTest {
                         List.of("Keanu Reeves", "Lance Reddick", "Ian Mcsahne","Ruby Rose"), LocalDate.parse("09-02-2017",dayMonthYearFrmt)),
                 new MovieInfo(null, "John Wick : chapter 3", 2019,
                         List.of("Keanu Reeves", "Lance Reddick", "Ian Mcsahne","Halle Berry"), LocalDate.parse("17-05-2019",dayMonthYearFrmt)),
-                new MovieInfo(null, "John Wick : chapter 4", 2023,
+                new MovieInfo("1001", "John Wick : chapter 4", 2023,
                         List.of("Keanu Reeves", "Lance Reddick", "Ian Mcsahne","Scott Adkins"), LocalDate.parse("24-03-2023",dayMonthYearFrmt))
         );
 
@@ -54,6 +54,19 @@ class MovieInfoRepoIntgTest {
 
         StepVerifier.create(moviesInfo)
                 .expectNextCount(4)
+                .verifyComplete();
+    }
+
+    @Test
+    void findById() {
+
+        var moviesInfoMono = movieInfoRepo.findById("1001").log();//returns a mono
+
+        StepVerifier.create(moviesInfoMono)
+                //.expectNextCount(1)
+                .assertNext(movieInfo -> {
+                    assert movieInfo.getYear()==2023;
+                })
                 .verifyComplete();
     }
 }
