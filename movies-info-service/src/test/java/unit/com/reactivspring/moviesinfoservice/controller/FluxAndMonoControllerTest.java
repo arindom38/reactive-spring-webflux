@@ -7,6 +7,9 @@ import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.test.StepVerifier;
 
+import java.util.List;
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @WebFluxTest(controllers = FluxAndMonoController.class)
@@ -42,5 +45,21 @@ class FluxAndMonoControllerTest {
         StepVerifier.create(flux)
                 .expectNext(1,2,3)
                 .verifyComplete();
+    }
+
+    @Test
+    void flux_approach3() {
+        webTestClient
+                .get()
+                .uri("/flux")
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(Integer.class)
+                .consumeWith(listEntityExchangeResult -> {
+                    var response = listEntityExchangeResult.getResponseBody();
+                    assert Objects.requireNonNull(response).containsAll(List.of(1,2,3));
+                });
+
     }
 }
