@@ -19,4 +19,8 @@ public class MoviesInfoService {
     public Flux<MovieInfo> getAllMovieInfos() {
         return movieInfoRepo.findAll().log();
     }
+
+    public Mono<MovieInfo> getMovieInfoById(String id) {
+        return movieInfoRepo.findById(id).log();
+    }
 }

@@ -85,4 +85,37 @@ class MoviesInfoControllerIntgTest {
                 .hasSize(4);
 
     }
+
+    @Test
+    void getMovieInfoById() {
+
+        var id = "1001";
+        webTestClient
+                .get()
+                .uri(MOVIE_INFO_POST_URI+"/{id}",id)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(MovieInfo.class)
+                .consumeWith(movieInfoEntityExchangeResult -> {
+                   var response = movieInfoEntityExchangeResult.getResponseBody();
+                   assert  response != null;
+                   assert response.getYear().equals(2023);
+                });
+    }
+
+    @Test
+    void getMovieInfoById_JSON_Approach() {
+
+        var id = "1001";
+        webTestClient
+                .get()
+                .uri(MOVIE_INFO_POST_URI+"/{id}",id)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody()
+                .jsonPath("$.year").isEqualTo(2023);
+
+    }
 }
