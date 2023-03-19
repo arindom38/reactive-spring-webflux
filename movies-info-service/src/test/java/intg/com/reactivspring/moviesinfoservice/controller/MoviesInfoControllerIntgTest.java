@@ -142,4 +142,23 @@ class MoviesInfoControllerIntgTest {
                     assertEquals(LocalDate.parse("31-01-2023",dayMonthYearFrmt),response.getReleaseDate());
                 });
     }
+
+    @Test
+    void deleteById() {
+        var id = "1001";
+
+        webTestClient
+                .delete()
+                .uri(MOVIE_INFO_POST_URI+"/{id}",id)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(MovieInfo.class)
+                .consumeWith(movieInfoEntityExchangeResult -> {
+                    var response = movieInfoEntityExchangeResult.getResponseBody();
+                    assert response == null;
+                });
+
+
+    }
 }
