@@ -86,4 +86,30 @@ class MovieInfoRepoIntgTest {
                 })
                 .verifyComplete();
     }
+
+    @Test
+    void updateMovieInfo() {
+
+        var movieInfo = movieInfoRepo.findById("1001").block();
+        movieInfo.setYear(2022);
+
+        var moviesInfoMono = movieInfoRepo.save(movieInfo).log();//returns a mono
+
+        StepVerifier.create(moviesInfoMono)
+                .assertNext(movie->{
+                    assert movie.getYear().equals(2022);
+                })
+                .verifyComplete();
+    }
+
+    @Test
+    void deleteMovieInfo() {
+
+        movieInfoRepo.deleteById("1001").block();
+        var moviesInfoMono = movieInfoRepo.findAll().log();
+
+        StepVerifier.create(moviesInfoMono)
+                .expectNextCount(3)
+                .verifyComplete();
+    }
 }
