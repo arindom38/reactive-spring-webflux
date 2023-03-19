@@ -152,12 +152,13 @@ class MoviesInfoControllerIntgTest {
                 .uri(MOVIE_INFO_POST_URI+"/{id}",id)
                 .exchange()
                 .expectStatus()
-                .is2xxSuccessful()
-                .expectBody(MovieInfo.class)
-                .consumeWith(movieInfoEntityExchangeResult -> {
-                    var response = movieInfoEntityExchangeResult.getResponseBody();
-                    assert response == null;
-                });
+//                .is2xxSuccessful()
+//                .expectBody(MovieInfo.class)
+//                .consumeWith(movieInfoEntityExchangeResult -> {
+//                    var response = movieInfoEntityExchangeResult.getResponseBody();
+//                    assert response == null;
+//                });
+                .isNoContent();
 
 
     }
