@@ -71,4 +71,18 @@ class MoviesInfoControllerIntgTest {
                    assert  reponse.getMovieInfoId().equals("2001");
                 });
     }
+
+    @Test
+    void getAllMovieInfos() {
+
+        webTestClient
+                .get()
+                .uri(MOVIE_INFO_POST_URI)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBodyList(MovieInfo.class)
+                .hasSize(4);
+
+    }
 }
