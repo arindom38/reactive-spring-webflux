@@ -118,4 +118,28 @@ class MoviesInfoControllerIntgTest {
                 .jsonPath("$.year").isEqualTo(2023);
 
     }
+
+    @Test
+    void updateMovieInfo() {
+
+        var id = "1001";
+        var updatedMovieInfo = new MovieInfo(null, "John Wick : chapter 4", 2024,
+                List.of("Keanu Reeves", "Lance Reddick","Scott Adkins"), LocalDate.parse("31-01-2023",dayMonthYearFrmt));
+
+        webTestClient
+                .put()
+                .uri(MOVIE_INFO_POST_URI+"/{id}",id)
+                .bodyValue(updatedMovieInfo)
+                .exchange()
+                .expectStatus()
+                .is2xxSuccessful()
+                .expectBody(MovieInfo.class)
+                .consumeWith(movieInfoEntityExchangeResult -> {
+                    var response = movieInfoEntityExchangeResult.getResponseBody();
+                    assert response != null;
+                    assertEquals(2024,response.getYear());
+                    assertEquals(3,response.getCasts().size());
+                    assertEquals(LocalDate.parse("31-01-2023",dayMonthYearFrmt),response.getReleaseDate());
+                });
+    }
 }
